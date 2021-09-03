@@ -18,24 +18,37 @@ public class Item {
     private byte[] picture;
     @Column
     private String number;
+
     @Column(name = "date_posted")
     private Date datePosted;
-    @Column
-    private String email;
-    @Column
-    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
+    @OneToOne(mappedBy = "item")
+    Order order;
+
 
     public Item(){}
 
-    public Item(String name, String description, double price, byte[] picture, String number, String email, String password){
+    public Item(String name, String description, double price, byte[] picture, String number, User owner){
         this.name = name;
         this.description = description;
         this.price = price;
         this.picture = picture;
         this.number = number;
         this.datePosted = new Date();
-        this.email = email;
-        this.password = password;
+        this.owner = owner;
+        this.order = null;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Long getId() {
@@ -90,19 +103,11 @@ public class Item {
         this.datePosted = datePosted;
     }
 
-    public String getEmail() {
-        return email;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

@@ -2,6 +2,7 @@ package com.example.shopserver.service;
 
 import com.example.shopserver.entities.Item;
 import com.example.shopserver.entities.Order;
+import com.example.shopserver.entities.User;
 import com.example.shopserver.repos.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ public class ItemService {
     @Autowired
     private OrderService orderService;
 
-    public void addItem(String title, String desc, double price, MultipartFile pic, String number, String email, String password) throws IOException {
+    public void addItem(String title, String desc, double price, MultipartFile pic, String number, User user) throws IOException {
         byte[] picture = pic.getBytes();
-        repository.save(new Item(title, desc, price, picture, number, email, password));
+        repository.save(new Item(title, desc, price, picture, number, user));
     }
 
     public Item getItemById(Long id){

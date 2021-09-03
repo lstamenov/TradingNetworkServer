@@ -15,14 +15,14 @@ public class OrderService {
     private EmailServiceImpl emailService;
 
     public void purchaseItem(Order order){
-        Item item = itemRepository.getById(order.getItemId());
-        String subject = String.format("%s %s - Order", order.getCustomerFirstName(),
-                order.getCustomerLastName());
+        Item item = order.getItem();
+        String subject = String.format("%s %s - Order", order.getCustomer().getFirstName(),
+                order.getCustomer().getLastName());
         String text = String.format("Hello %s%n%n" +
                 "Your order is successful. Thank you for shopping from our Trading Network, we hope you like your new %s!%n%n" +
                 "Kind regards,%n" +
-                "The team", order.getCustomerFirstName(), item.getName());
-        emailService.sendSimpleMessage(order.getCustomerEmail(), subject, text);
-        itemRepository.deleteById(order.getItemId());
+                "The team", order.getCustomer().getFirstName(), item.getName());
+        emailService.sendSimpleMessage(order.getCustomer().getEmail(), subject, text);
+        itemRepository.deleteById(order.getItem().getId());
     }
 }

@@ -1,47 +1,31 @@
 package com.example.shopserver.entities;
 
+import javax.persistence.*;
+
+@Entity(name = "orders")
 public class Order {
-    private String customerEmail;
-    private String customerFirstName;
-    private String customerLastName;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name="customer_id")
+    private User customer;
+
     private String address;
-    private Long itemId;
+    @OneToOne
+    @JoinColumn(name = "item_id")
+    private Item item;
 
-    public Order(String customerEmail,
-                 String customerFirstName,
-                 String customerLastName,
+    public Order(){}
+    public Order(User customer,
                  String address,
-                 Long itemId) {
-        this.customerEmail = customerEmail;
-        this.customerFirstName = customerFirstName;
-        this.customerLastName = customerLastName;
+                 Item item) {
+        this.customer = customer;
         this.address = address;
-        this.itemId = itemId;
+        this.item = item;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
-
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
-
-    public String getCustomerFirstName() {
-        return customerFirstName;
-    }
-
-    public void setCustomerFirstName(String customerFirstName) {
-        this.customerFirstName = customerFirstName;
-    }
-
-    public String getCustomerLastName() {
-        return customerLastName;
-    }
-
-    public void setCustomerLastName(String customerLastName) {
-        this.customerLastName = customerLastName;
-    }
 
     public String getAddress() {
         return address;
@@ -51,8 +35,19 @@ public class Order {
         this.address = address;
     }
 
-    public Long getItemId() {
-        return this.itemId;
+    public User getCustomer() {
+        return customer;
     }
 
+    public void setCustomer(User customer) {
+        this.customer = customer;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
 }

@@ -2,6 +2,7 @@ package com.example.shopserver.controllers;
 
 import com.example.shopserver.entities.Item;
 import com.example.shopserver.entities.Order;
+import com.example.shopserver.entities.User;
 import com.example.shopserver.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,18 +23,15 @@ public class ItemController {
     @PostMapping("/add")
     public ResponseEntity<?> addItem(@RequestParam("itemName") String itemName,@RequestParam("itemDesc")
             String itemDesc,@RequestParam("itemPrice") double itemPrice, @RequestParam("picture") MultipartFile picture,
-            @RequestParam("itemNumber") String itemNumber, @RequestParam("email") String email, @RequestParam("password") String password) throws IOException {
-        service.addItem(itemName, itemDesc, itemPrice, picture, itemNumber, email, password);
+            @RequestParam("itemNumber") String itemNumber, @RequestParam("email") String email,
+                                     @RequestParam("password") String password, @RequestParam("owner") User owner) throws IOException {
+        service.addItem(itemName, itemDesc, itemPrice, picture, itemNumber, owner);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/order")
-    public ResponseEntity<?> makeOrder(@RequestParam("customerEmail") String customerEmail,
-                                       @RequestParam("customerFirstName") String customerFirstName,
-                                       @RequestParam("customerLastName") String customerLastName,
-                                       @RequestParam("address") String address,
-                                       @RequestParam("itemId") Long itemId){
-        service.purchaseItem(new Order(customerEmail, customerFirstName, customerLastName, address, itemId));
+    public ResponseEntity<?> makeOrder(@RequestBody Order order){
+        service.purchaseItem(order);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
