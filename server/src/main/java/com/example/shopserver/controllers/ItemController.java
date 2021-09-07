@@ -3,6 +3,7 @@ package com.example.shopserver.controllers;
 import com.example.shopserver.entities.Item;
 import com.example.shopserver.entities.Order;
 import com.example.shopserver.entities.User;
+import com.example.shopserver.payload.request.AddItemRequest;
 import com.example.shopserver.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@RequestMapping("/api/no-auth")
+@RequestMapping("/api/items")
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class ItemController {
@@ -21,11 +22,14 @@ public class ItemController {
     private ItemService service;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addItem(@RequestParam("itemName") String itemName,@RequestParam("itemDesc")
-            String itemDesc,@RequestParam("itemPrice") double itemPrice, @RequestParam("picture") MultipartFile picture,
-            @RequestParam("itemNumber") String itemNumber, @RequestParam("email") String email,
-                                     @RequestParam("password") String password, @RequestParam("owner") User owner) throws IOException {
-        service.addItem(itemName, itemDesc, itemPrice, picture, itemNumber, owner);
+    public ResponseEntity<?> addItem(@RequestParam("title") String title,
+                                     @RequestParam("description")String description,
+                                     @RequestParam("price") double price,
+                                     @RequestParam("phoneNumber") String phoneNumber,
+                                     @RequestParam("picture") MultipartFile picture,
+                                     @RequestParam("ownerId") Long ownerId) throws IOException {
+        AddItemRequest request = new AddItemRequest(title, description, price, phoneNumber, picture, ownerId);
+        service.addItem(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -35,12 +39,12 @@ public class ItemController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/items/{id}")
+    @GetMapping("view/{id}")
     public Item getItemById(@PathVariable("id") Long id){
         return service.getItemById(id);
     }
 
-    @GetMapping("/all-items")
+    @GetMapping("view/all")
     public List<Item> getAllItems(){
         return this.service.getAll();
     }

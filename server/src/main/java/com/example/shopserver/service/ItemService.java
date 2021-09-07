@@ -3,7 +3,9 @@ package com.example.shopserver.service;
 import com.example.shopserver.entities.Item;
 import com.example.shopserver.entities.Order;
 import com.example.shopserver.entities.User;
+import com.example.shopserver.payload.request.AddItemRequest;
 import com.example.shopserver.repos.ItemRepository;
+import com.example.shopserver.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,10 +20,12 @@ public class ItemService {
     private ItemRepository repository;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private UserRepository userRepository;
 
-    public void addItem(String title, String desc, double price, MultipartFile pic, String number, User user) throws IOException {
-        byte[] picture = pic.getBytes();
-        repository.save(new Item(title, desc, price, picture, number, user));
+    public void addItem(AddItemRequest request) throws IOException {
+        byte[] picture = request.getPicture().getBytes();
+        repository.save(new Item(request.getTitle(), request.getDescription(), request.getPrice(), picture, request.getPhoneNumber(), userRepository.getById(request.getOwnerId())));
     }
 
     public Item getItemById(Long id){

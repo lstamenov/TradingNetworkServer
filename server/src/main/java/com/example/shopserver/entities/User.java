@@ -23,6 +23,7 @@ public class User {
     private String username;
 
     @Column(name = "profile_picture")
+    @Lob()
     private byte[] profilePicture;
 
     @Column(name = "first_name")

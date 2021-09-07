@@ -1,5 +1,7 @@
 package com.example.shopserver.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -22,12 +24,13 @@ public class Item {
     @Column(name = "date_posted")
     private Date datePosted;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @OneToOne(mappedBy = "item")
-    Order order;
+//    @OneToOne(mappedBy = "item")
+//    Order order;
 
 
     public Item(){}
@@ -40,16 +43,16 @@ public class Item {
         this.number = number;
         this.datePosted = new Date();
         this.owner = owner;
-        this.order = null;
+//        this.order = null;
     }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+//
+//    public Order getOrder() {
+//        return order;
+//    }
+//
+//    public void setOrder(Order order) {
+//        this.order = order;
+//    }
 
     public Long getId() {
         return id;
