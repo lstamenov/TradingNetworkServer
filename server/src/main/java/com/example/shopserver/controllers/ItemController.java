@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 @RequestMapping("/api/items")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -28,8 +27,9 @@ public class ItemController {
                                      @RequestParam("price") double price,
                                      @RequestParam("phoneNumber") String phoneNumber,
                                      @RequestParam("picture") MultipartFile picture,
-                                     @RequestParam("ownerId") Long ownerId) throws IOException {
-        AddItemRequest request = new AddItemRequest(title, description, price, phoneNumber, picture, ownerId);
+                                     @RequestParam("ownerId") Long ownerId,
+                                     @RequestParam("categoryName") String categoryName) throws IOException {
+        AddItemRequest request = new AddItemRequest(title, description, price, phoneNumber, picture, ownerId, categoryName);
         service.addItem(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

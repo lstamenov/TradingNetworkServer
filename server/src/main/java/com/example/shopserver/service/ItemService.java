@@ -5,6 +5,7 @@ import com.example.shopserver.entities.Order;
 import com.example.shopserver.entities.User;
 import com.example.shopserver.payload.request.AddItemRequest;
 import com.example.shopserver.payload.request.EditItemRequest;
+import com.example.shopserver.repos.CategoryRepository;
 import com.example.shopserver.repos.ItemRepository;
 import com.example.shopserver.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,12 @@ public class ItemService {
     private OrderService orderService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public void addItem(AddItemRequest request) throws IOException {
         byte[] picture = request.getPicture().getBytes();
-        repository.save(new Item(request.getTitle(), request.getDescription(), request.getPrice(), picture, request.getPhoneNumber(), userRepository.getById(request.getOwnerId())));
+        repository.save(new Item(request.getTitle(), request.getDescription(), request.getPrice(), picture, request.getPhoneNumber(), userRepository.getById(request.getOwnerId()), categoryRepository.findByName(request.getCategoryName())));
     }
 
     public Item getItemById(Long id){

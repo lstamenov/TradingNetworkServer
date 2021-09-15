@@ -15,12 +15,12 @@ import java.util.Date;
 //)
 public class Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String name;
 
-    @Column(length = 20000)
+    @Column(length = 1000)
     private String description;
     @Column
     private double price;
@@ -38,13 +38,17 @@ public class Item {
     @JoinColumn(name = "owner_id")
     private User owner;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
 //    @OneToOne(mappedBy = "item")
 //    Order order;
 
 
     public Item(){}
 
-    public Item(String name, String description, double price, byte[] picture, String number, User owner){
+    public Item(String name, String description, double price, byte[] picture, String number, User owner, Category category){
         this.name = name;
         this.description = description;
         this.price = price;
@@ -52,17 +56,8 @@ public class Item {
         this.number = number;
         this.datePosted = new Date();
         this.owner = owner;
-//        this.order = null;
+        this.category = category;
     }
-//
-//    public Order getOrder() {
-//        return order;
-//    }
-//
-//    public void setOrder(Order order) {
-//        this.order = order;
-//    }
-
     public Long getId() {
         return id;
     }
@@ -121,5 +116,17 @@ public class Item {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
