@@ -1,30 +1,39 @@
 package com.example.shopserver.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "items")
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id"
+//)
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
     private String name;
-    @Column
+
+    @Column(length = 20000)
     private String description;
     @Column
     private double price;
     @Lob()
     private byte[] picture;
+
     @Column
     private String number;
 
     @Column(name = "date_posted")
     private Date datePosted;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;

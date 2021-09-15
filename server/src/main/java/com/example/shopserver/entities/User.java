@@ -1,5 +1,8 @@
 package com.example.shopserver.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -14,6 +17,10 @@ uniqueConstraints = {
         @UniqueConstraint(columnNames = "email"),
         @UniqueConstraint(columnNames = "username")
 })
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +43,10 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "owner")
-    private List<Item> itemsPosted;
+    private Set<Item> itemsPosted;
 
     @OneToMany(mappedBy = "customer")
-    private List<Order> orders;
+    private Set<Order> orders;
 
     @NotNull
     private String password;
@@ -58,16 +65,16 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.itemsPosted = new ArrayList<>();
-        this.orders = new ArrayList<>();
+        this.itemsPosted = new HashSet<>();
+        this.orders = new HashSet<>();
         this.profilePicture = profilePicture;
     }
 
-    public List<Item> getItemsPosted() {
+    public Set<Item> getItemsPosted() {
         return itemsPosted;
     }
 
-    public void setItemsPosted(List<Item> itemsPosted) {
+    public void setItemsPosted(Set<Item> itemsPosted) {
         this.itemsPosted = itemsPosted;
     }
 
@@ -111,11 +118,11 @@ public class User {
         this.roles = roles;
     }
 
-    public List<Order> getOrders() {
+    public Set<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(Set<Order> orders) {
         this.orders = orders;
     }
 

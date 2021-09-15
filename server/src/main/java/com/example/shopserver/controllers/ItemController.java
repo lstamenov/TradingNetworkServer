@@ -2,8 +2,8 @@ package com.example.shopserver.controllers;
 
 import com.example.shopserver.entities.Item;
 import com.example.shopserver.entities.Order;
-import com.example.shopserver.entities.User;
 import com.example.shopserver.payload.request.AddItemRequest;
+import com.example.shopserver.payload.request.EditItemRequest;
 import com.example.shopserver.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @RequestMapping("/api/items")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -37,6 +38,22 @@ public class ItemController {
     public ResponseEntity<?> makeOrder(@RequestBody Order order){
         service.purchaseItem(order);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/edit/{itemId}")
+    public ResponseEntity<?> editItem(@PathVariable Long itemId, @ModelAttribute EditItemRequest request){
+        try {
+            service.editItem(request, itemId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/edit/delete/{itemId}")
+    public ResponseEntity<?> deleteItem(@PathVariable Long itemId){
+        service.deleteItemById(itemId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("view/{id}")

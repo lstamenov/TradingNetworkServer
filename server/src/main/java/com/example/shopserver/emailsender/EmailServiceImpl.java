@@ -13,7 +13,7 @@ public class EmailServiceImpl {
     public void sendSimpleMessage(String to, String subject, String text){
         SimpleMailMessage message = new SimpleMailMessage();
         //You should allow two-step verification in gmail and generate a password which should be placed in app.properties
-        message.setFrom("enter your email here");
+        message.setFrom("stamenovl99@gmail.com");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
