@@ -1,11 +1,9 @@
 package com.example.shopserver.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity(name = "items")
@@ -36,10 +34,13 @@ public class Item {
 //    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @NotNull
     private User owner;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @NotNull
     private Category category;
 
 //    @OneToOne(mappedBy = "item")

@@ -28,8 +28,8 @@ public class ItemController {
                                      @RequestParam("phoneNumber") String phoneNumber,
                                      @RequestParam("picture") MultipartFile picture,
                                      @RequestParam("ownerId") Long ownerId,
-                                     @RequestParam("categoryName") String categoryName) throws IOException {
-        AddItemRequest request = new AddItemRequest(title, description, price, phoneNumber, picture, ownerId, categoryName);
+                                     @RequestParam("categoryId") Long categoryId) throws IOException {
+        AddItemRequest request = new AddItemRequest(title, description, price, phoneNumber, picture, ownerId, categoryId);
         service.addItem(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

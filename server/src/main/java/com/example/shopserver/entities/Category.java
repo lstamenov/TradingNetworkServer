@@ -13,7 +13,7 @@ public class Category {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private Set<Item> items;
 
     public Category(){}

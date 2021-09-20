@@ -9,23 +9,24 @@ public class AddItemRequest {
     private String phoneNumber;
     private MultipartFile picture;
     private Long ownerId;
-    private String categoryName;
+    private Long categoryId;
 
-    public AddItemRequest(String title, String description, double price, String phoneNumber, MultipartFile picture, Long ownerId, String categoryName) {
+    public AddItemRequest(String title, String description, double price, String phoneNumber, MultipartFile picture, Long ownerId, Long categoryId) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.phoneNumber = phoneNumber;
         this.picture = picture;
         this.ownerId = ownerId;
+        this.categoryId = categoryId;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getTitle() {

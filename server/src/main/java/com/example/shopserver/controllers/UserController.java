@@ -19,7 +19,8 @@ public class UserController {
 
     @GetMapping("view/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable String username){
-        return ResponseEntity.ok(service.getUserByUsername(username));
+        User userByUsername = service.getUserByUsername(username);
+        return ResponseEntity.ok(userByUsername);
     }
 
     @PostMapping("change/profile-picture")
