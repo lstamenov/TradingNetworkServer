@@ -42,7 +42,7 @@ public class ItemService {
     }
 
     public void editItem(EditItemRequest request, Long itemId) throws IOException {
-        Item item = repository.getById(itemId);
+        Item item = getItemById(itemId);
         item.setName(request.getTitle());
         item.setPrice(request.getPrice());
         item.setDescription(request.getDescription());

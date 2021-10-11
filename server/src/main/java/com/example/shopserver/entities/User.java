@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users",
@@ -16,7 +15,8 @@ uniqueConstraints = {
 })
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
+        property = "id",
+        scope = User.class
 )
 public class User {
     @Id
@@ -27,7 +27,8 @@ public class User {
     private String username;
 
     @Column(name = "profile_picture")
-//    @Lob()
+
+    @Lob()
     private byte[] profilePicture;
 
     @Column(name = "first_name")
@@ -54,6 +55,12 @@ public class User {
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "ratingUser", fetch = FetchType.EAGER)
+    private Set<UserReview> reviewsPosted;
+
+    @OneToMany(mappedBy = "ratedUser", fetch = FetchType.EAGER)
+    private Set<UserReview> reviewsReceived;
+
     public User(){}
 
     public User(String username,String firstName, String lastName, String email, String password, byte[] profilePicture) {
@@ -65,6 +72,24 @@ public class User {
         this.itemsPosted = new HashSet<>();
         this.orders = new HashSet<>();
         this.profilePicture = profilePicture;
+        this.reviewsReceived = new LinkedHashSet<>();
+        this.reviewsPosted = new LinkedHashSet<>();
+    }
+
+    public Set<UserReview> getReviewsPosted() {
+        return reviewsPosted;
+    }
+
+    public void setReviewsPosted(Set<UserReview> reviewsPosted) {
+        this.reviewsPosted = reviewsPosted;
+    }
+
+    public Set<UserReview> getReviewsReceived() {
+        return reviewsReceived;
+    }
+
+    public void setReviewsReceived(Set<UserReview> reviewsReceived) {
+        this.reviewsReceived = reviewsReceived;
     }
 
     public Set<Item> getItemsPosted() {

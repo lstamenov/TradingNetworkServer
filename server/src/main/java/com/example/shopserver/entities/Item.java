@@ -7,10 +7,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity(name = "items")
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id"
-//)
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,10 +38,6 @@ public class Item {
     @JoinColumn(name = "category_id")
     @NotNull
     private Category category;
-
-//    @OneToOne(mappedBy = "item")
-//    Order order;
-
 
     public Item(){}
 
